@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Nav from './components/Header/Header.jsx';
+import Header from './Components/Header/Header.jsx';
 import Home from './Components/Home/home';
 import Properties from './Components/AllPages/Properties/Properties';
 import Cart from './Components/AllPages/Cart/Cart';
@@ -11,7 +11,7 @@ import PropertyDetails from './Components/AllPages/Properties/ProperyDetails/Pro
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Nav />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/properties" element={<Properties />} />
