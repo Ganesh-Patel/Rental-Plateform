@@ -34,7 +34,7 @@ const Account = () => {
       console.error("Failed to log out:", error);
     }
   };
-
+  console.log('bookings 37:', bookings)
   if (!currentUser) {
     return (
       <div
@@ -115,12 +115,11 @@ const Account = () => {
         <div className="bg-gray-100 p-4 rounded-lg">
           {bookings.length > 0 ? (
             <ul className="space-y-4">
-              {bookings.map((booking, index) => (
+              {bookings.flat().map((booking, index) => (
                 <li key={index} className="bg-white shadow-md rounded-lg p-4 mb-4">
-                  <h4 className="text-lg font-semibold text-gray-800">{booking.title}</h4>
                   <p className="text-gray-600">Description: {booking.description}</p>
-                  <p className="text-gray-600">Location:
-                    {booking.location ? `${booking.location.city}, ${booking.location.neighborhood}, ${booking.location.landmark} (${booking.location.postalCode})` : 'N/A'}
+                  <p className="text-gray-600">
+                    Location: {booking.location ? `${booking.location.city}, ${booking.location.neighborhood}, ${booking.location.landmark} (${booking.location.postalCode})` : 'N/A'}
                   </p>
                   <p className="text-gray-600">Price: ${booking.price}</p>
                   <p className="text-gray-600">Date: {new Date(booking.date).toLocaleDateString()}</p>
@@ -128,13 +127,13 @@ const Account = () => {
                   <p className="text-gray-600">User: {booking.userName}</p>
                 </li>
               ))}
-
             </ul>
           ) : (
             <p className="text-gray-600">No bookings found.</p>
           )}
         </div>
       </div>
+
 
       <div className="mt-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Additional Details</h3>
