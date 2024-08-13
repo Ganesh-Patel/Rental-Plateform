@@ -23,6 +23,8 @@ function Cart() {
                 bathrooms={property.bathrooms}
                 squareFeet={property.squareFeet}
                 description={property.description}
+                id={property.id}
+                fromCartPage={true} // Indicate this is from the cart page
               />
               <button
                 onClick={() => removeFromCart(property.id)}

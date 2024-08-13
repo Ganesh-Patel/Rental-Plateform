@@ -1,14 +1,51 @@
-import React, { useContext } from 'react';
-import { FaStar, FaCartPlus, FaInfoCircle } from 'react-icons/fa';
-import { CartContext } from '../../../MyContext/CartContext';
+import React, { useContext, useState } from 'react';
+import { FaStar, FaShareAlt, FaCalendarCheck, FaCartPlus, FaInfoCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useBooking } from '../../../MyContext/BookingContext';
+import { useAuth } from '../../../MyContext/Authcontext';
+import { CartContext } from '../../../MyContext/CartContext';
+import Modal from '../Modal/Modal'; 
+import { toast } from 'react-toastify';
 
-function PropertyCard({ title, location, price, rating, bedrooms, bathrooms, squareFeet, description ,id}) {
-    const { addToCart } = useContext(CartContext);
+function PropertyCard({ title, location, price, rating, bedrooms, bathrooms, squareFeet, description, id, fromCartPage }) {
+  const { bookProperty } = useBooking();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {addToCart,removeFromCart}=useContext(CartContext);
+
+  const { currentUser,userName} = useAuth();
+
+
+  const handleBookNow = () => {
+    if ( currentUser) {
+      setIsModalOpen(true);
+    } else {
+      toast.error("Login first to book your property");
+      console.log("User not logged in");
+    }
+  };
+
+  const confirmBooking = () => {
+    if ( currentUser) {
+      const bookingDetails = {
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        payment: price,
+        userName: userName
+      };
+      console.log(bookingDetails);
+      bookProperty({ title, location, price, rating, bedrooms, bathrooms, squareFeet, description, id }, bookingDetails);
+      setIsModalOpen(false);
+      removeFromCart(id);
+    } else {
+      // Redirect to login or show an error
+      toast.error("Login logged in to book");
+      console.log("User not logged in");
+    }
+  };
+
   return (
     <div className="bg-white p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
       {/* Property Details */}
-      <Link to={`/property/${id}`}>
       <div className="flex flex-col items-start">
         <h2 className="text-xl font-bold text-gray-800">{title}</h2>
         <div className="text-gray-600 text-sm mb-2">
@@ -27,16 +64,46 @@ function PropertyCard({ title, location, price, rating, bedrooms, bathrooms, squ
 
       {/* Buttons */}
       <div className="flex justify-between items-center mt-4">
-        <button className="bg-teal-500 text-white py-2 px-4 rounded-lg flex items-center hover:bg-teal-600 transition duration-300 ease-in-out" onClick={() => addToCart({ title, location, price, rating, bedrooms, bathrooms, squareFeet, description })}>
-          <FaCartPlus className="mr-2" />
-          Add to Cart
-        </button>
-        <button className="bg-gray-800 text-white py-2 px-4 rounded-lg flex items-center hover:bg-gray-700 transition duration-300 ease-in-out">
-          <FaInfoCircle className="mr-2" />
-          View Details
-        </button>
+        {!fromCartPage ? (
+          <>
+            <button
+              className="bg-teal-500 text-white py-2 px-4 rounded-lg flex items-center hover:bg-teal-600 transition duration-300 ease-in-out"
+              onClick={() => addToCart({ title, location, price, rating, bedrooms, bathrooms, squareFeet, description, id })}
+            >
+              <FaCartPlus className="mr-2" />
+              Add to Cart
+            </button>
+            <Link to={`/property/${id}`}>
+              <button className="bg-gray-800 text-white py-2 px-4 rounded-lg flex items-center hover:bg-gray-700 transition duration-300 ease-in-out">
+                <FaInfoCircle className="mr-2" />
+                View Details
+              </button>
+            </Link>
+          </>
+        ) : (
+          <div className="flex space-x-4">
+            <button className="bg-teal-500 text-white py-2 px-4 rounded-lg flex items-center hover:bg-teal-600 transition duration-300 ease-in-out">
+              <FaShareAlt className="mr-2" />
+              Share
+            </button>
+            <button onClick={handleBookNow} className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center hover:bg-blue-600 transition duration-300 ease-in-out">
+              <FaCalendarCheck className="mr-2" />
+              Book Now
+            </button>
+          </div>
+        )}
       </div>
-    </Link>
+
+      {/* Confirmation Modal */}
+      {isModalOpen && (
+        <Modal
+          title="Confirm Booking"
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={confirmBooking}
+        >
+          <p>Are you sure you want to book this property?</p>
+        </Modal>
+      )}
     </div>
   );
 }
