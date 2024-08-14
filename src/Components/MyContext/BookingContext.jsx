@@ -55,8 +55,17 @@ export function BookingProvider({ children }) {
         return bookings.filter((booking) => booking.userName === userName);
     };
 
+
+  const cancelBooking = async (bookingId) => {
+    setBookings(prevBookings => 
+      prevBookings.map(booking => 
+        booking.id === bookingId ? { ...booking, status: 'canceled' } : booking
+      )
+    );
+  };
+
     return (
-        <BookingContext.Provider value={{ bookings, bookProperty, getUserBookings }}>
+        <BookingContext.Provider value={{ bookings, bookProperty, getUserBookings, cancelBooking }}>
             {children}
         </BookingContext.Provider>
     );

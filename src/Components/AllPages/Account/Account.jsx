@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 const Account = () => {
   const { currentUser, logout, userName } = useAuth();
-  const { getUserBookings } = useBooking(); 
+  const { getUserBookings, cancelBooking } = useBooking(); 
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,6 @@ const Account = () => {
       const fetchBookings = async () => {
         try {
           const userBookings = await getUserBookings(userName); 
-          console.log("User bookings:", userBookings);
           setBookings(userBookings);
         } catch (error) {
           toast.error('Failed to fetch bookings');
@@ -34,7 +33,20 @@ const Account = () => {
       console.error("Failed to log out:", error);
     }
   };
-  console.log('bookings 37:', bookings)
+
+  const handleCancelBooking = async (bookingId) => {
+    try {
+      await cancelBooking(bookingId);
+      // Update the booking list to reflect the cancellation
+      setBookings(bookings.map(booking =>
+        booking.id === bookingId ? { ...booking, status: 'canceled' } : booking
+      ));
+    } catch (error) {
+      toast.error('Failed to cancel booking');
+      console.error("Error canceling booking:", error);
+    }
+  };
+
   if (!currentUser) {
     return (
       <div
@@ -65,45 +77,43 @@ const Account = () => {
   }
 
   const accountDetails = {
-    username: currentUser.displayName || 'User',
-    fullName: currentUser.displayName || 'John Doe',
+    username: userName || 'User',
+    fullName: userName || 'John Doe',
     email: currentUser.email,
-    phone: '+1-234-567-8901', // This could be fetched from the database if available
-    address: '1234 Elm Street, New York, NY, 10001', // This could be fetched from the database if available
-    membership: 'Premium', // This could be dynamically assigned based on the user's status
+    phone: '+1-234-567-8901', 
+    address: '1234 Elm Street, New York, NY, 10001', 
+    membership: 'Premium', 
     joinDate: currentUser.metadata.creationTime,
-    profilePicture: currentUser.photoURL || 'https://www.shutterstock.com/image-vector/man-icon-vector-260nw-1040084344.jpg', // Use the photoURL from Firebase or a placeholder
+    profilePicture: currentUser.photoURL || 'https://www.shutterstock.com/image-vector/man-icon-vector-260nw-1040084344.jpg', 
   };
 
   return (
     <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8 mt-8 min-h-96">
       <div className="bg-white shadow-lg rounded-lg p-6">
-        <div className="flex flex-col md:flex-row items-center md:justify-between">
-          <div className="flex items-center space-x-6">
-            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-              {accountDetails.profilePicture ? (
-                <img
-                  src={accountDetails.profilePicture}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <FaUserCircle className="text-gray-500 text-6xl" />
-              )}
-            </div>
-            <div className="flex flex-col space-y-2 mt-4 md:mt-0">
-              <h2 className="text-2xl font-semibold text-gray-900">{accountDetails.fullName}</h2>
-              <p className="text-gray-600">@{accountDetails.username}</p>
-              <p className="text-gray-600">{accountDetails.email}</p>
-              <p className="text-gray-600">{accountDetails.phone}</p>
-              <p className="text-gray-600">{accountDetails.address}</p>
-              <p className="text-gray-600"><strong>Membership:</strong> {accountDetails.membership}</p>
-              <p className="text-gray-600"><strong>Joined:</strong> {new Date(accountDetails.joinDate).toLocaleDateString()}</p>
-            </div>
+        <div className="flex flex-col items-center">
+          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden mb-4">
+            {accountDetails.profilePicture ? (
+              <img
+                src={accountDetails.profilePicture}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <FaUserCircle className="text-gray-500 text-6xl" />
+            )}
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <h2 className="text-2xl font-semibold text-gray-900">{accountDetails.fullName}</h2>
+            <p className="text-gray-600">@{accountDetails.username}</p>
+            <p className="text-gray-600">{accountDetails.email}</p>
+            <p className="text-gray-600">{accountDetails.phone}</p>
+            <p className="text-gray-600">{accountDetails.address}</p>
+            <p className="text-gray-600"><strong>Membership:</strong> {accountDetails.membership}</p>
+            <p className="text-gray-600"><strong>Joined:</strong> {new Date(accountDetails.joinDate).toLocaleDateString()}</p>
           </div>
           <button
             onClick={handleLogout}
-            className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 mt-4 md:mt-0"
+            className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 mt-4"
           >
             Logout
           </button>
@@ -125,6 +135,16 @@ const Account = () => {
                   <p className="text-gray-600">Date: {new Date(booking.date).toLocaleDateString()}</p>
                   <p className="text-gray-600">Time: {new Date(`1970-01-01T${booking.time}`).toLocaleTimeString()}</p>
                   <p className="text-gray-600">User: {booking.userName}</p>
+                  {booking.status === 'canceled' ? (
+                    <p className="text-red-500 font-semibold">Booking Canceled</p>
+                  ) : (
+                    <button
+                      onClick={() => handleCancelBooking(booking.id)}
+                      className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 mt-2"
+                    >
+                      Cancel Booking
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
@@ -133,7 +153,6 @@ const Account = () => {
           )}
         </div>
       </div>
-
 
       <div className="mt-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Additional Details</h3>
