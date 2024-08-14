@@ -76,7 +76,7 @@ const FilterSidebar = ({ filters = {}, onFilterChange }) => {
   };
 
   return (
-    <div className="h-[calc(100vh-8vh)] w-[25vw] overflow-y-auto bg-white shadow-lg p-4">
+    <div className="h-full w-[25vw] overflow-y-auto bg-white shadow-lg p-4">
       <button
         className="mb-4 p-2 w-full bg-red-500 text-white text-sm rounded"
         onClick={clearAllFilters}

@@ -55,12 +55,12 @@ function Properties() {
   });
 
   return (
-    <div className="flex gap-16 justify-between max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 mt-8">
+    <div className="flex gap-4 justify-between max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 mt-8">
       <div className="">
         <FilterSidebar filters={filters} onFilterChange={handleFilterChange} />
       </div>
       <div className="flex-1">
-        <div className="flex flex-wrap gap-4 ">
+        <div className="flex flex-wrap gap-2">
         {filteredProperties.length > 0 ? (
             filteredProperties.map((property, index) => (
               <PropertyCard

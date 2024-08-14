@@ -25,7 +25,8 @@ function Nav() {
 
                     <div className="hidden md:flex space-x-8 items-center">
                         {/* Search Box */}
-                        <div className="relative text-gray-400 focus-within:text-gray-600">
+                        {location.pathname === '/properties' && (
+                            <div className="relative text-gray-400 focus-within:text-gray-600">
                             <input
                                 type="search"
                                 placeholder="Search..."
@@ -37,6 +38,7 @@ function Nav() {
                                 <FiSearch className="h-5 w-5 text-white" />
                             </span>
                         </div>
+                        )}
                         <Link to="/" className={`${linkClasses("/")} text-sm font-medium`}>
                             <FiHome className="mr-2" /> Home
                         </Link>

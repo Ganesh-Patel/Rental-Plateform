@@ -23,7 +23,7 @@ function Home() {
 
       {/* Featured Properties Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-    
+        <h1 className="text-3xl font-bold mb-8 text-center">Available Properties</h1>
        <Properties />
       </section>
 
