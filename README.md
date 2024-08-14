@@ -1,7 +1,4 @@
 # Real Estate Property Management Web Application
-
-![Logo](./src/assets/totality_logo.png)
-
 ## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
