@@ -105,6 +105,7 @@ Once the application is running, users can:
 
 ![Login Page](https://github.com/user-attachments/assets/2337ab14-539c-431e-8eb3-910352eec87d)
 
+
 ## Technologies Used
 
 - **React:** Frontend library used to build the user interface.
