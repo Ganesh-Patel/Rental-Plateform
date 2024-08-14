@@ -27,7 +27,7 @@ This project is a fully functional Real Estate Property Management Web Applicati
 - **Toast Notifications:** Real-time feedback for user actions using `react-toastify`.
 
 ## Demo
-You can view a live demo of the application [here](#).
+You can view a live demo of the application [here](https://rental-plateform-o95j-9m38ukvgh-ganesh-patels-projects.vercel.app/).
 
 ## Installation
 
@@ -35,8 +35,8 @@ To run this project locally, follow these steps:
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/real-estate-app.git
-    cd real-estate-app
+    git clone https://github.com/Ganesh-Patel/Rental-Plateform.git
+    cd Rental-Plateform
     ```
 
 2. **Install dependencies:**
