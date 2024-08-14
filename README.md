@@ -79,19 +79,21 @@ Once the application is running, users can:
 ## Screenshots
 
 ### Home Page
-![Home Page](./screenshots/home_page.png)
+![Home Page](https://github.com/user-attachments/assets/ba9687da-e048-468a-b5e6-d47934988600)
 
 ### Properties Page
-![Properties Page](./screenshots/properties_page.png)
+![Properties Page](https://github.com/user-attachments/assets/67e72402-8f18-43fb-b9f7-c31b3a154048)
 
-### Search and Filter
-![Search and Filter](./screenshots/search_filter.png)
+### Account 
+![Search and Filter](https://github.com/user-attachments/assets/dd112473-e5e6-4cbd-a93f-922ba7e5a58c)
 
 ### Cart Page
-![Cart Page](./screenshots/cart_page.png)
+![Cart Page](https://github.com/user-attachments/assets/3f7b7b02-f8cf-4b07-832c-feb777045bf2)
 
 ### Login Page
-![Login Page](./screenshots/login_page.png)
+![Login Page](https://github.com/user-attachments/assets/2b3a69be-7f2d-40ac-abc6-96e519e2c5d1)
+
+(https://github.com/user-attachments/assets/2337ab14-539c-431e-8eb3-910352eec87d)
 
 ## Technologies Used
 
