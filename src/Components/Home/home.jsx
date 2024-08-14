@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Features from '../AllPages/Features/Features.jsx';
 import Properties from '../AllPages/Properties/Properties.jsx';
 import { useNavigate } from 'react-router-dom';
-import FilterSidebar from '../filters/FilterSidebar.jsx';
+import Testimonials from './Testimonials/Testimonials.jsx';
+import { PropertiesContext } from '../../Components/MyContext/PropertiesContext.js';
+import PropertyCard from '../AllPages/Properties/PropertyCard/PropertyCard.jsx';
 
 function Home() {
   const navigate=useNavigate()
+  const { properties } = useContext(PropertiesContext);
+  
+  const filteredProperties = properties.filter((property) => {
+    return property.availability.toLowerCase().includes("available");
+  });
+  
+  console.log(filteredProperties)
+
   return (
     <div className="bg-slate-100 min-h-screen flex flex-col mt-8">
       {/* Hero Section */}
@@ -24,22 +34,35 @@ function Home() {
       {/* Featured Properties Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <h1 className="text-3xl font-bold mb-8 text-center">Available Properties</h1>
-       <Properties />
+        <div className="flex-1">
+        <div className="flex flex-wrap gap-2">
+        {filteredProperties.length > 0 ? (
+            filteredProperties.map((property, index) => (
+              <PropertyCard
+                key={index}
+                id={property.id}
+                title={property.title}
+                location={property.location}
+                price={property.price}
+                rating={property.rating}
+                bedrooms={property.bedrooms}
+                bathrooms={property.bathrooms}
+                squareFeet={property.squareFeet}
+                description={property.description}
+              />
+            ))
+          ) : (
+            <div className="flex items-center justify-center min-h-[200px] text-center text-gray-500">
+              <p className="text-lg font-semibold ">Sorry, no properties found for the selected filters. Please adjust your filters or search terms.</p>
+            </div>
+          )}
+        </div>
+      </div>
       </section>
 
       {/* Testimonials Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">What Our Clients Say</h2>
-          <div className="flex flex-wrap justify-center gap-8">
-            {/* Example Testimonial */}
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-1/2 lg:w-1/3">
-              <p className="text-gray-600 mb-4">“Great experience! Highly recommend.”</p>
-              <p className="font-semibold">Client Name</p>
-            </div>
-            {/* Add more testimonials as needed */}
-          </div>
-        </div>
+        <Testimonials />
       </section>
 
       {/* Newsletter Signup Section */}

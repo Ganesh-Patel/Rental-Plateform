@@ -33,6 +33,11 @@ You can view a live demo of the application [here](https://rental-plateform-o95j
 
 To run this project locally, follow these steps:
 
+### Prerequisites
+- Node.js installed
+- Firebase account
+- Razorpay account
+
 1. **Clone the repository:**
     ```bash
     git clone https://github.com/Ganesh-Patel/Rental-Plateform.git
@@ -131,8 +136,7 @@ The application is deployed on [Vercel] (Replace with the appropriate hosting li
 Contributions are welcome! If you'd like to contribute, please fork the repository and create a pull request.
 
 ## Acknowledgments
-
-- **Geekster** for organizing the Geekathon event.
+- **Razorpay** for payment gateway integration.
 - **RapidAPI** for providing the Amazon Product Data API.
 - **Firebase** for authentication services.
 - Special thanks to the developers whose tutorials and resources helped in building this project.

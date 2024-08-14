@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { filterOptions } from '../Data/filterOptions'; // Adjust the path as necessary
+import { filterOptions } from '../Data/filterOptions'; 
 
 const FilterSidebar = ({ filters = {}, onFilterChange }) => {
   const [showAll, setShowAll] = useState({

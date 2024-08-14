@@ -7,21 +7,25 @@ export function CartProvider({ children }) {
   const {currentUser} = useAuth(); 
 
   const addToCart = (property) => {
-    console.log(currentUser)
     if (currentUser) {
-      setCart((prevCart) => [...prevCart, property]);
-      toast.success('Property added to cart!');
+      const isAlreadyInCart = cart.some((item) => item.id === property.id);
+  
+      if (isAlreadyInCart) {
+        toast.warning('This property is already in your cart.');
+      } else {
+        setCart((prevCart) => [...prevCart, property]);
+        toast.success('Property added to cart!');
+      }
     } else {
       toast.error("Login first to add property to cart");
       console.log("User not logged in");
     }
-
   };
+  
 
   const removeFromCart = (propertyId) => {
     if (currentUser) {
       setCart((prevCart) => prevCart.filter((property) => property.id !== propertyId));
-      // toast.success('Property removed from cart!');
     } else {
       toast.error("Login first to remove property from cart");
       console.log("User not logged in");
