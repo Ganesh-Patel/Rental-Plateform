@@ -1,4 +1,5 @@
 # Real Estate Property Management Web Application
+
 ## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
@@ -12,8 +13,12 @@
 - [Routing](#routing)
 - [Authentication](#authentication)
 - [Toast Notifications](#toast-notifications)
+- [Deployment](#deployment)
+- [Extra Features Implemented](#extra-features-implemented)
+- [Contribution](#contribution)
+- [Acknowledgments](#acknowledgments)
 - [License](#license)
-- [Author](#author)
+- [Authors](#authors)
 
 ## Overview
 This project is a fully functional Real Estate Property Management Web Application where users can browse, search, and filter properties, add properties to a cart, and book properties. The application supports user authentication, allowing users to sign up, log in, and manage their bookings. Firebase is used for backend services including authentication and database management.
@@ -119,17 +124,16 @@ This application uses React's Context API to manage global state, particularly f
 2. **AuthContext:** Manages user authentication state and actions using Firebase.
 3. **CartContext:** Manages the cart state, including adding and removing properties.
 
-
 ## Deployment
 
-The application is deployed on [Vercel] (Replace with the appropriate hosting link).
+The application is deployed on [Vercel](https://vercel.com/). Replace with your hosting link.
 
 ## Extra Features Implemented
 
-- **Search Functionality**: Enhanced search functionality to find products based on keywords.
-- **Advanced Filters**: Users can filter products not only by price and rating but also by categories and brands.
-- **Responsive Design**: Ensured the platform is fully responsive and mobile-friendly.
-- **Toast Notifications**: Added real-time notifications for user interactions, like adding items to the cart or completing payments.
+- **Search Functionality:** Enhanced search functionality to find products based on keywords.
+- **Advanced Filters:** Users can filter products not only by price and rating but also by categories and brands.
+- **Responsive Design:** Ensured the platform is fully responsive and mobile-friendly.
+- **Toast Notifications:** Added real-time notifications for user interactions, like adding items to the cart or completing payments.
 
 ## Contribution
 
