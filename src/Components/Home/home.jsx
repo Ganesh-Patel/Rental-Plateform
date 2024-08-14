@@ -1,15 +1,18 @@
 import React from 'react';
 import Features from '../AllPages/Features/Features.jsx';
 import Properties from '../AllPages/Properties/Properties.jsx';
+import { useNavigate } from 'react-router-dom';
+import FilterSidebar from '../filters/FilterSidebar.jsx';
 
 function Home() {
+  const navigate=useNavigate()
   return (
     <div className="bg-slate-100 min-h-screen flex flex-col mt-8">
       {/* Hero Section */}
       <section className="bg-teal-500 text-white h-64 flex flex-col justify-center items-center text-center">
         <h1 className="text-4xl font-bold mb-4">Welcome to Our Real Estate Platform</h1>
         <p className="text-lg mb-6">Find your dream property with ease.</p>
-        <button className="bg-white text-teal-500 px-6 py-2 rounded-lg font-medium">
+        <button className="bg-white text-teal-500 px-6 py-2 rounded-lg font-medium" onClick={() => navigate('/properties') }>
           Get Started
         </button>
       </section>
@@ -20,6 +23,7 @@ function Home() {
 
       {/* Featured Properties Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    
        <Properties />
       </section>
 

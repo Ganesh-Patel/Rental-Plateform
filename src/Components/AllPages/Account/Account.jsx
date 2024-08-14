@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../MyContext/Authcontext.jsx';
-import { useBooking } from '../../MyContext/BookingContext'; // Ensure this path is correct
+import { useBooking } from '../../MyContext/BookingContext';
 import { FaUserCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 const Account = () => {
   const { currentUser, logout, userName } = useAuth();
-  const { getUserBookings } = useBooking(); // Ensure getUserBookings is defined
+  const { getUserBookings } = useBooking(); 
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     if (currentUser) {
       const fetchBookings = async () => {
         try {
-          const userBookings = await getUserBookings(userName); // Ensure this method exists
+          const userBookings = await getUserBookings(userName); 
           console.log("User bookings:", userBookings);
           setBookings(userBookings);
         } catch (error) {
@@ -72,7 +72,7 @@ const Account = () => {
     address: '1234 Elm Street, New York, NY, 10001', // This could be fetched from the database if available
     membership: 'Premium', // This could be dynamically assigned based on the user's status
     joinDate: currentUser.metadata.creationTime,
-    profilePicture: currentUser.photoURL || 'https://via.placeholder.com/150', // Use the photoURL from Firebase or a placeholder
+    profilePicture: currentUser.photoURL || 'https://www.shutterstock.com/image-vector/man-icon-vector-260nw-1040084344.jpg', // Use the photoURL from Firebase or a placeholder
   };
 
   return (

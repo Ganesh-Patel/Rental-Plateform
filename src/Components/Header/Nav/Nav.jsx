@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FiHome, FiShoppingCart, FiUser, FiList, FiSearch } from 'react-icons/fi';
 import logo from '../../../assets/totality_logo.png';
+import { useSearch } from '../../MyContext/SearchContext';
+
 
 function Nav() {
+    const { searchTerm, setSearchTerm } = useSearch();
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
 
@@ -26,6 +29,8 @@ function Nav() {
                             <input
                                 type="search"
                                 placeholder="Search..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
                                 className="bg-gray-500 text-gray-100 rounded-full pl-10 pr-3 py-2 focus:outline-none focus:shadow-outline w-64 h-8"
                             />
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">

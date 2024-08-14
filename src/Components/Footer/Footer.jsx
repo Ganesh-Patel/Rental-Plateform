@@ -4,7 +4,7 @@ import logo from '../../assets/totality_logo.png';
 
 function Footer() {
   return (
-    <footer className="bg-black text-gray-300 py-8">
+    <footer className="bg-black text-gray-300 py-8  w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Container for the sections */}
         <div className="flex flex-wrap justify-center md:justify-between items-start space-y-8 md:space-y-0">

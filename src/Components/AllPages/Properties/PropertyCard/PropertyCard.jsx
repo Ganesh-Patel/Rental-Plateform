@@ -44,7 +44,7 @@ function PropertyCard({ title, location, price, rating, bedrooms, bathrooms, squ
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+    <div className="bg-white p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl w-[350px]">
       {/* Property Details */}
       <div className="flex flex-col items-start">
         <h2 className="text-xl font-bold text-gray-800">{title}</h2>
@@ -63,11 +63,11 @@ function PropertyCard({ title, location, price, rating, bedrooms, bathrooms, squ
       </div>
 
       {/* Buttons */}
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex justify-between gap-4 items-center mt-4">
         {!fromCartPage ? (
           <>
             <button
-              className="bg-teal-500 text-white py-2 px-4 rounded-lg flex items-center hover:bg-teal-600 transition duration-300 ease-in-out"
+              className="bg-teal-500 text-white py-2 px-4 rounded-lg flex items-center hover:bg-teal-600 transition duration-300 ease-in-out "
               onClick={() => addToCart({ title, location, price, rating, bedrooms, bathrooms, squareFeet, description, id })}
             >
               <FaCartPlus className="mr-2" />
