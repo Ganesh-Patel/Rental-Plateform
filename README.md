@@ -93,7 +93,7 @@ Once the application is running, users can:
 ### Login Page
 ![Login Page](https://github.com/user-attachments/assets/2b3a69be-7f2d-40ac-abc6-96e519e2c5d1)
 
-(https://github.com/user-attachments/assets/2337ab14-539c-431e-8eb3-910352eec87d)
+![Login Page](https://github.com/user-attachments/assets/2337ab14-539c-431e-8eb3-910352eec87d)
 
 ## Technologies Used
 
