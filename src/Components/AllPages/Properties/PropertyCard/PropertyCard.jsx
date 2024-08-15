@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { FaStar, FaShareAlt, FaCalendarCheck, FaCartPlus, FaInfoCircle } from 'react-icons/fa';
+import { FaStar, FaCartPlus, FaInfoCircle, FaCalendarCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useBooking } from '../../../MyContext/BookingContext';
 import { useAuth } from '../../../MyContext/Authcontext';
@@ -9,31 +9,48 @@ import { toast } from 'react-toastify';
 
 function PropertyCard({ title, location, price, rating, bedrooms, bathrooms, squareFeet, description, id, fromCartPage }) {
   const { bookProperty } = useBooking();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { addToCart, removeFromCart } = useContext(CartContext);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState({ userName: '', userEmail: '', userContact: '', address: '' });
+  const { addToCart, removeFromCart , increaseQuantity, decreaseQuantity, cart} = useContext(CartContext);
   const { currentUser, userName } = useAuth();
 
   const handleBookNow = () => {
     if (currentUser) {
-      setIsModalOpen(true);
+      setIsBookingModalOpen(true);
     } else {
       toast.error("Login first to book your property");
     }
   };
 
-  const confirmBooking = () => {
+  const handleBookingDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setBookingDetails(prevDetails => ({ ...prevDetails, [name]: value }));
+  };
+
+  const confirmBooking = (id) => {
+    console.log('your id for which are you going to book', id)
     if (currentUser) {
-      const bookingDetails = {
-        date: new Date().toLocaleDateString(),
-        time: new Date().toLocaleTimeString(),
-        payment: price,
-        userName: userName
-      };
-      bookProperty({ title, location, price, rating, bedrooms, bathrooms, squareFeet, description, id }, bookingDetails);
-      setIsModalOpen(false);
-      removeFromCart(id);
+      const quantity = cart.find(item => item.id === id)?.quantity || 1;
+      console.log('your quantity for which are you going to book', quantity)
+      const tamount=price*quantity;
+      bookProperty({ title, location, totalAmount: tamount, rating, bedrooms, bathrooms, squareFeet, description, id, quantity }, bookingDetails,removeFromCart,currentUser,false);
+      console.log(price)
+      setIsBookingModalOpen(false);
     } else {
       toast.error("Login first to book");
+    }
+  };
+
+  const handleIncreaseQuantity = (id) => {
+    increaseQuantity(id);
+  };
+
+  const handleDecreaseQuantity = (id) => {
+    if (cart.find(item => item.id === id)?.quantity > 1) {
+      decreaseQuantity(id);
+    }else{
+      removeFromCart(id);
+      toast.error("Property removed from cart");
     }
   };
 
@@ -57,12 +74,12 @@ function PropertyCard({ title, location, price, rating, bedrooms, bathrooms, squ
       </div>
 
       {/* Buttons */}
-      <div className="flex flex-col sm:flex-row  gap-4 mt-4">
+      <div className="flex flex-col sm:flex-row gap-4 mt-4">
         {!fromCartPage ? (
           <>
             <button
               className="bg-teal-500 text-white py-2 px-4 rounded-lg flex items-center text-xs sm:text-sm hover:bg-teal-600 transition duration-300 ease-in-out"
-              onClick={() => addToCart({ title, location, price, rating, bedrooms, bathrooms, squareFeet, description, id })}
+              onClick={() => addToCart({ title, location, price, rating, bedrooms, bathrooms, squareFeet, description, id, quantity: 1 })}
             >
               <FaCartPlus className="mr-1 text-sm sm:text-base" />
               <span className="sm:inline">Add to Cart</span>
@@ -70,32 +87,78 @@ function PropertyCard({ title, location, price, rating, bedrooms, bathrooms, squ
             <Link to={`/property/${id}`}>
               <button className="bg-gray-800 text-white py-2 px-4 rounded-lg flex items-center text-xs sm:text-sm hover:bg-gray-700 transition duration-300 ease-in-out">
                 <FaInfoCircle className="mr-1 text-sm sm:text-base" />
-                <span className=" sm:inline">View Details</span>
+                <span className="sm:inline">View Details</span>
               </button>
             </Link>
           </>
         ) : (
-          <div className="flex flex-col sm:flex-row gap-2">
-            <button className="bg-teal-500 text-white py-2 px-4 rounded-lg flex items-center text-xs sm:text-sm hover:bg-teal-600 transition duration-300 ease-in-out">
-              <FaShareAlt className="mr-1 text-sm sm:text-base" />
-              <span className="hidden sm:inline">Share</span>
-            </button>
-            <button onClick={handleBookNow} className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center text-xs sm:text-sm hover:bg-blue-600 transition duration-300 ease-in-out">
+          <div className="flex flex-col sm:flex-row gap-2 items-center">
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={() => handleDecreaseQuantity(id)} 
+                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 ease-in-out"
+              >
+                -
+              </button>
+              <span className="text-lg font-semibold">{cart.find(item => item.id === id)?.quantity || 1}</span>
+              <button 
+                  onClick={() => handleIncreaseQuantity(id)} 
+                className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300 ease-in-out"
+              >
+                +
+              </button>
+            </div>
+            <button 
+              onClick={handleBookNow} 
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center text-xs sm:text-sm hover:bg-blue-600 transition duration-300 ease-in-out"
+            >
               <FaCalendarCheck className="mr-1 text-sm sm:text-base" />
-              <span className="hidden sm:inline">Book Now</span>
+              <span className="sm:inline">Book Now</span>
             </button>
           </div>
         )}
       </div>
 
-      {/* Confirmation Modal */}
-      {isModalOpen && (
+      {/* Booking Details Modal */}
+      {isBookingModalOpen && (
         <Modal
-          title="Confirm Booking"
-          onClose={() => setIsModalOpen(false)}
-          onConfirm={confirmBooking}
+          title="Enter Booking Details"
+          onClose={() => setIsBookingModalOpen(false)}
+          onConfirm={() => confirmBooking(id)}
         >
-          <p>Are you sure you want to book this property?</p>
+          <form className="flex flex-col gap-4">
+            <input 
+              type="text" 
+              name="userName" 
+              placeholder="Full Name" 
+              value={bookingDetails.userName} 
+              onChange={handleBookingDetailsChange} 
+              className="p-2 border rounded"
+            />
+            <input 
+              type="email" 
+              name="userEmail" 
+              placeholder="Email Address" 
+              value={bookingDetails.userEmail} 
+              onChange={handleBookingDetailsChange} 
+              className="p-2 border rounded"
+            />
+            <input 
+              type="text" 
+              name="userContact" 
+              placeholder="Contact Number" 
+              value={bookingDetails.userContact} 
+              onChange={handleBookingDetailsChange} 
+              className="p-2 border rounded"
+            />
+            <textarea 
+              name="address" 
+              placeholder="Address" 
+              value={bookingDetails.address} 
+              onChange={handleBookingDetailsChange} 
+              className="p-2 border rounded"
+            />
+          </form>
         </Modal>
       )}
     </div>

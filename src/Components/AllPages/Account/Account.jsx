@@ -14,7 +14,8 @@ const Account = () => {
     if (currentUser) {
       const fetchBookings = async () => {
         try {
-          const userBookings = await getUserBookings(userName); 
+          const userBookings = await getUserBookings(userName);
+          console.log("User bookings:", userBookings); 
           setBookings(userBookings);
         } catch (error) {
           toast.error('Failed to fetch bookings');
@@ -132,9 +133,9 @@ const Account = () => {
                     Location: {booking.location ? `${booking.location.city}, ${booking.location.neighborhood}, ${booking.location.landmark} (${booking.location.postalCode})` : 'N/A'}
                   </p>
                   <p className="text-gray-600">Price: ${booking.price}</p>
-                  <p className="text-gray-600">Date: {new Date(booking.date).toLocaleDateString()}</p>
-                  <p className="text-gray-600">Time: {new Date(`1970-01-01T${booking.time}`).toLocaleTimeString()}</p>
-                  <p className="text-gray-600">User: {booking.userName}</p>
+                  <p className="text-gray-600">Date: {booking.date}</p>
+                  <p className="text-gray-600">Time: {booking.time}</p>
+                  <p className="text-gray-600">Booked By: {booking.userName}</p>
                   {booking.status === 'canceled' ? (
                     <p className="text-red-500 font-semibold">Booking Canceled</p>
                   ) : (
