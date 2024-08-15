@@ -45,7 +45,7 @@ To run this project locally, follow these steps:
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/Ganesh-Patel/Rental-Plateform.git
+    git clone https://github.com/Ganesh-Patel/Totality-frontend-challenge.git
     cd Rental-Plateform
     ```
 
