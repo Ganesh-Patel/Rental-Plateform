@@ -33,7 +33,7 @@ function Cart() {
                   {/* Your property details here */}
                   <FaTrash
                     onClick={() => removeFromCart(property.id)}
-                    className="absolute bottom-2 right-2 cursor-pointer text-red-500"
+                    className="absolute bottom-2 right-12 cursor-pointer text-red-500"
                     size={24} // Adjust size if needed
                   />
                 </div>
